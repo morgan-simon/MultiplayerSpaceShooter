@@ -3,17 +3,17 @@ using Unity.Netcode;
 
 public class ShipMovement : NetworkBehaviour
 {
-    public GameObject bulletPrefab; // Reference to the bullet prefab
-    public float speed = 5f; // Speed of movement
+    public GameObject bulletPrefab; // Bullet prefab
+    public float speed = 5f; // Movement speed
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        // We're only updating the ship's movements when we're surely updating on the owning instance
+        // Only update ship movement if it is by the owner
         if (!IsOwner)
             return;
 
         KeyboardInput();
+        ClampPosition();
     }
 
     private void KeyboardInput()
@@ -47,5 +47,13 @@ public class ShipMovement : NetworkBehaviour
         transform.Translate(movement);
     }
 
+    private void ClampPosition()
+    {
+        // Clamp ship's position within boundaries
+        Vector3 clampedPosition = transform.position;
+        clampedPosition.x = Mathf.Clamp(clampedPosition.x, -7.3f, 7.3f);
+        clampedPosition.y = Mathf.Clamp(clampedPosition.y, -4.3f, 4.3f);
+        transform.position = clampedPosition;
+    }
 
 }
