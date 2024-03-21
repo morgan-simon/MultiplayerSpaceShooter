@@ -21,6 +21,7 @@ public class ShipAttack : NetworkBehaviour
     [ServerRpc]
     void ShootBulletServerRpc()
     {
+        
         // Create bullet
         GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
@@ -28,11 +29,5 @@ public class ShipAttack : NetworkBehaviour
         NetworkObject bulletNetworkObject = bullet.GetComponent<NetworkObject>();
         bulletNetworkObject.Spawn();
 
-        // Set the bullet's parent to null to prevent it from being affected by the player's movement
-        // bullet.transform.parent = null;
-
-        // Destroy the bullet after a certain amount of time 
-        // TODO: Destroy bullet when it collides with an asteroid
-        // Destroy(bullet, 5f);
     }
 }

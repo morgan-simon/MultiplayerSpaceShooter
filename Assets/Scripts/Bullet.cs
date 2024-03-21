@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
@@ -11,27 +10,32 @@ public class Bullet : NetworkBehaviour
 
     void Start()
     {
-        // Get the rigidbody component of the bullet
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (IsServer)
+        {
+            // Get the rigidbody component of the bullet
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
 
-        // Set the velocity of the bullet to move in the forward direction 
-        rb.velocity = transform.right * bulletSpeed;
+            // Set the velocity of the bullet to move in the forward direction 
+            rb.velocity = transform.right * bulletSpeed;
 
-        // Start a coroutine to destroy the bullet after the specified lifetime
-        StartCoroutine(DestroyAfterLifetime());
+            // Start a coroutine to destroy the bullet after the specified lifetime
+            StartCoroutine(DestroyAfterLifetime());
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision) 
     {
-        if(IsServer){
+        if (IsServer)
+        {
             EnemyHealth enemy = collision.gameObject.GetComponent<EnemyHealth>();
             if (enemy != null)
             {
                 enemy.TakeDamage(bulletDamage);
-                Destroy(gameObject); // Destroy the bullet upon impact
+
+                // Destroy the bullet on all clients
+                NetworkObject.Destroy(gameObject);
             }
         }
-        
     }
 
     IEnumerator DestroyAfterLifetime()
@@ -39,7 +43,7 @@ public class Bullet : NetworkBehaviour
         // Wait for the specified lifetime
         yield return new WaitForSeconds(lifetime);
 
-        // Destroy the bullet after the lifetime expires
-        Destroy(gameObject);
+        // Destroy the bullet after the lifetime expires on all clients
+        NetworkObject.Destroy(gameObject);
     }
 }

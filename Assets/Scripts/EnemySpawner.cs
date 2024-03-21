@@ -4,11 +4,9 @@ using Unity.Netcode;
 public class EnemySpawner : NetworkBehaviour
 {
     [SerializeField] public GameObject enemyPrefab;
-    public float spawnInterval = 5f;
+    public float spawnInterval = 1f;
 
     private float spawnTimer = 0f;
-
-
     void Update()
     {
         if (!IsServer)
@@ -27,17 +25,20 @@ public class EnemySpawner : NetworkBehaviour
 
     void SpawnEnemy()
     {
-        // Spawn within these coordinates
-        Vector3 spawnPosition = new Vector3(
-            Random.Range(-7f, 7f),
-            Random.Range(-4f, 4f),
-            0f);
 
-        // Spawn the enemy at the calculated spawn position
-        GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+        int numEnemies = Random.Range(3, 5);
 
-        // Spawn the enemy over the network
-        NetworkObject networkObject = enemy.GetComponent<NetworkObject>();
-        networkObject.Spawn();
+        for (int i = 0; i < numEnemies; i++)
+            {
+                // Spawn within these coordinates
+                Vector3 spawnPosition = new Vector3(Random.Range(-1f, 7f), Random.Range(-4f, 4f), 0f);
+
+                // Spawn the enemy at the calculated spawn position
+                GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+
+                // Spawn the enemy over the network
+                NetworkObject networkObject = enemy.GetComponent<NetworkObject>();
+                networkObject.Spawn();
+            }
     }
 }

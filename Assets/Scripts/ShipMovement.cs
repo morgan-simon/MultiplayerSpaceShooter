@@ -3,8 +3,14 @@ using Unity.Netcode;
 
 public class ShipMovement : NetworkBehaviour
 {
-    public GameObject bulletPrefab; // Bullet prefab
     public float speed = 5f; // Movement speed
+
+    [SerializeField] private Transform spawnPoint;
+
+    void Start()
+    {
+        transform.position = spawnPoint.transform.position;
+    }
 
     void FixedUpdate()
     {
