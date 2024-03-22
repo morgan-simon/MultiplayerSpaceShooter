@@ -6,13 +6,15 @@ using System;
 public class EnemyHealth : MonoBehaviour
 {
 
-    private int health = 3; // Initial health of the enemy
+    private int health = 3; // Starting health of the enemy
 
     public static int totalEnemiesDied = 0;
 
     public void TakeDamage(int damageAmount)
     {
         health -= damageAmount;
+        
+        // Call Die method if the health is less than 0 after applying damage amount
         if (health <= 0)
         {
             Die();

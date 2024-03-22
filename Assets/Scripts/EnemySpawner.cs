@@ -36,7 +36,7 @@ public class EnemySpawner : NetworkBehaviour
                 // Spawn the enemy at the calculated spawn position
                 GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
 
-                // Spawn the enemy over the network
+                // Spawn the enemy
                 NetworkObject networkObject = enemy.GetComponent<NetworkObject>();
                 networkObject.Spawn();
             }

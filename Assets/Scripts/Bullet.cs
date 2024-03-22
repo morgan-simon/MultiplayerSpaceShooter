@@ -18,7 +18,7 @@ public class Bullet : NetworkBehaviour
             // Set the velocity of the bullet to move in the forward direction 
             rb.velocity = transform.right * bulletSpeed;
 
-            // Start a coroutine to destroy the bullet after the specified lifetime
+            // Start a coroutine to destroy the bullet after the lifetime
             StartCoroutine(DestroyAfterLifetime());
         }
     }
@@ -40,7 +40,7 @@ public class Bullet : NetworkBehaviour
 
     IEnumerator DestroyAfterLifetime()
     {
-        // Wait for the specified lifetime
+        // Wait for the lifetime
         yield return new WaitForSeconds(lifetime);
 
         // Destroy the bullet after the lifetime expires on all clients

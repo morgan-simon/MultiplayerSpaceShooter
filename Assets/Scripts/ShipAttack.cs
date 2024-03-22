@@ -4,7 +4,6 @@ using Unity.Netcode;
 public class ShipAttack : NetworkBehaviour
 {
     [SerializeField] private GameObject bulletPrefab; // Reference to the bullet prefab
-    // [SerializeField] private float bulletSpeed = 10f;
 
     public int bulletDamage = 1;
 
